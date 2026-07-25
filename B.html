@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+<meta charset="UTF-8">
+<title>狗狗組</title>
+
+<style>
+
+body{
+    text-align:center;
+    background-color:#FFF8F3;
+    font-family:sans-serif;
+    padding-top:40px;
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+h2{
+    margin-bottom:10px;
+}
+
+#message{
+    font-size:22px;
+    min-height:40px;
+}
+
+#icon{
+    display:block;
+    margin:30px auto;
+    width:350px;
+    height:350px;
+    object-fit:contain;
+}
+
+button{
+    padding:15px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>大地遊戲校園巡禮</h1>
+
+<h2 id="title">
+準備開始冒險！
+</h2>
+
+<p id="message"></p>
+
+<img id="icon" style="display:none">
+
+<br>
+
+<button id="nextBtn">
+開始冒險
+</button>
+
+
+<script>
+
+//======================================
+// A組闖關順序
+//======================================
+
+const route = [
+
+"images/puzzle.png",
+"images/ring.png",
+"images/cap.png",
+"images/final.png"
+
+];
+
+//======================================
+
+
+// 等待時間（8分鐘）
+
+const WAIT_TIME = 480000;
+
+// 測試時可改為10秒
+// const WAIT_TIME = 10000;
+
+
+//======================================
+
+let stage = 0;
+let stageStartTime = null;
+
+const title = document.getElementById("title");
+const message = document.getElementById("message");
+const icon = document.getElementById("icon");
+const button = document.getElementById("nextBtn");
+
+
+//======================================
+// 按鈕功能
+//======================================
+
+button.onclick = function(){
+
+    // 第一次開始冒險
+    if(stage === 0){
+
+        showStage();
+        return;
+
+    }
+
+    // 第一、二、三關要檢查時間
+    if(stage < route.length){
+
+        checkTime();
+
+    }
+
+};
+
+
+//======================================
+// 檢查是否已滿8分鐘
+//======================================
+
+function checkTime(){
+
+    const currentTime = Date.now();
+
+    const passedTime = currentTime - stageStartTime;
+
+
+    // 未滿8分鐘
+
+    if(passedTime < WAIT_TIME){
+
+        alert("尚未解鎖下一關！\n請先完成本關卡挑戰。");
+
+        return;
+
+    }
+
+
+    // 已滿8分鐘
+
+    showStage();
+
+}
+
+
+//======================================
+// 顯示關卡
+//======================================
+
+function showStage(){
+
+    title.innerHTML = "抽取關卡中......";
+    message.innerHTML = "";
+    icon.style.display = "none";
+
+
+    setTimeout(function(){
+
+
+        icon.src = route[stage];
+        icon.style.display = "block";
+
+
+        // 記錄這一關開始的時間
+        stageStartTime = Date.now();
+
+
+
+        //==========================
+        // 第一關
+        //==========================
+
+        if(stage === 0){
+
+            title.innerHTML = "荒島餘生保衛戰";
+
+            message.innerHTML =
+            "請依照 下圖 尋找關卡！";
+
+            button.innerHTML =
+            "前往下一關";
+
+        }
+
+
+        //==========================
+        // 第二關
+        //==========================
+
+        else if(stage === 1){
+
+            title.innerHTML = "秘密力量傳送門";
+
+            message.innerHTML =
+            "請依照 下圖 尋找關卡！";
+
+            button.innerHTML =
+            "前往下一關";
+
+        }
+
+
+        //==========================
+        // 第三關
+        //==========================
+
+        else if(stage === 2){
+
+            title.innerHTML = "魔幻大廈極限蓋";
+
+            message.innerHTML =
+            "請依照 下圖 尋找關卡！";
+
+            button.innerHTML =
+            "前往下一關";
+
+        }
+
+
+        //==========================
+        // 總關
+        //==========================
+
+        else if(stage === 3){
+
+            title.innerHTML =
+            "總關：莫拉的狂歡盛宴";
+
+            message.innerHTML =
+            "請前往總關，完成最後的挑戰！";
+
+            button.style.display = "none";
+
+        }
+
+
+        // 關卡+1
+        stage++;
+
+
+    },2000);
+
+}
+
+</script>
+
+</body>
+</html>
